@@ -1,0 +1,47 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    // Put your code here:
+    Not(in=sel[0], out=notselo);
+    Not(in=sel[1], out=notselone);
+    Not(in=sel[2], out=notseltwo);
+    And(a=notselo, b=notselone, out=interonea);
+    And(a=interonea, b=notseltwo, out=intera);
+    And(a=intera, b=in, out=a);
+    And(a=sel[0], b=notselone, out=interoneb);
+    And(a=interoneb, b=notseltwo, out=interb);
+    And(a=interb, b=in, out=b);
+    And(a=notselo, b=sel[1], out=interonec);
+    And(a=interonec, b=notseltwo, out=interc);
+    And(a=interc, b=in, out=c);
+    And(a=sel[0], b=sel[1], out=interoned);
+    And(a=interoned, b=notseltwo, out=interd);
+    And(a=interd, b=in, out=d);
+    And(a=notselo, b=notselone, out=interonee);
+    And(a=interonee, b=sel[2], out=intere);
+    And(a=intere, b=in, out=e);
+    And(a=sel[0], b=notselone, out=interonef);
+    And(a=interonef, b=sel[2], out=interf);
+    And(a=interf, b=in, out=f);
+    And(a=notselo, b=sel[1], out=interoneg);
+    And(a=interoneg, b=sel[2], out=interg);
+    And(a=interg, b=in, out=g);
+    And(a=sel[0], b=sel[1], out=interoneh);
+    And(a=interoneh, b=sel[2], out=interh);
+    And(a=interh, b=in, out=h);
+}
